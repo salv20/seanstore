@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>cart</title>
+    <link rel="stylesheet" href="index.css" />
+
+    <!--  -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kanit&family=Playfair+Display:wght@800&display=swap"
+      rel="stylesheet"
+    />
+    <!--  -->
+    <script
+      defer
+      src="https://kit.fontawesome.com/81ad2b7315.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!--  -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"
+    />
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <!--  -->
+    <script>
+      tailwind.config = {
+        theme: {
+          height: {
+            forty: "28rem",
+          },
+
+          fontFamily: {
+            self: ["Kanit", "sans-serif"],
+            boldHead: ["Playfair Display", "serif"],
+          },
+          screens: {
+            sm: "480px",
+            vs: "580px",
+            vd: "700px",
+            md: "768px",
+            mw: "890px",
+            lg: "976px",
+            ld: "1100px",
+            ux: "1200px",
+            xl: "1440px",
+          },
+          extend: {
+            colors: {
+              white: "#ffffff",
+              gray: "#e9eae3",
+              textBlack: "#333333",
+              dropBlack: "#222222",
+              lightBlue: "#717fe0",
+              lightRed: "#f74877",
+              blue: "#7481e0",
+              seanText: "#353535",
+              all: "#8d8e93",
+              allhover: "#514642",
+              sorting: "#f2f2f2",
+              sortText: "#b4afb0",
+              brown: "#914900",
+              imgText: " #a3b1cb",
+              footer: "#4a5181",
+            },
+          },
+        },
+      };
+    </script>
+    <!--  -->
+    <script defer src="https://unpkg.com/scrollreveal"></script>
+    <script type="module" src="cart.js"></script>
+  </head>
+
+  <body>
+    <section class="cart-container">
+      <div
+        class="my-6 vs:grid vs:grid-cols-2 md:grid-cols-3 ld:grid-cols-4 mx-5 gap-8"
+      >
+        <!--  -->
+        <div class="allProduct-container cartarea text-center"> </div>
+        <!-- <div class="image-final text-center"> </div> -->
+      </div>
+
+      <aside class="loadoption">
+        <article class="text-center sm:text-left sm:mx-10 pb-5">
+          <button
+            class="uppercase py-2 px-5 bg-blue text-white opt rounded-sm font-semibold"
+            >check out <span class="totalamount">($10,200)</span>
+          </button>
+        </article>
+
+        <div class="text-center sm:text-left sm:mx-12 mb-10">
+          <button
+            type="button"
+            class="uppercase shop-more py-2 px-8 bg-blue text-white rounded-sm font-semibold"
+            >keep shopping</button
+          >
+        </div>
+      </aside>
+    </section>
+
+    <section class="emptycart hidden w-3/4 md:w-1/2 mx-auto bg-gray p-3">
+      <div>
+        <p
+          class="px-5 py-5 w-fit mx-auto rounded-full text-5xl text-center bg-white text-blue"
+          ><i class="bx bxs-cart-add"></i
+        ></p>
+        <p class="my-4 text-center capitalize">your cart empty!</p>
+
+        <p
+          class="shop bg-blue hover:bg-black text-white uppercase font-semibold text-center my-3 transition-all duration-500 cursor-pointer rounded-sm py-3"
+          >start shopping</p
+        >
+      </div>
+    </section>
+  </body>
+</html>
