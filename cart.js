@@ -167,7 +167,6 @@ const cartFunction = function () {
       }
 
       total.textContent = `($${finalAmount.toFixed(2)})`;
-      //
     });
   }
   // REMOVE CART

@@ -4,8 +4,6 @@ export default class MyProduct {
     this.product(info);
   }
   product(asset) {
-    // console.log(asset);
-    // console.log(asset[1]);
     imageFinal.innerHTML = "";
     asset.forEach(function (pro, index) {
       const html = `
@@ -14,6 +12,7 @@ export default class MyProduct {
           <img
           src="${pro.imgsrc}"
           alt=""
+          data-id="${index}"
           />
           <button
           class="relative quickview opacity-0 bottom-24 transition-all duration-500 capitalize tracking-wide font-semibold px-3 py-2 bg-white text-dropBlack rounded-3xl hover:bg-black hover:text-white"
@@ -29,7 +28,9 @@ export default class MyProduct {
           </div>
           <div
           class="text-gray absolute right-1 hover:text-blue h-fit w-fit text-2xl transition-all cursor-pointer duration-500"
-          ><i class="bx bxs-heart"></i
+          ><i class="bx bxs-heart like"></i
+          >
+          <i class="bx bxs-heart hidden unlike text-blue"></i
           ></div>
           </div>
           </div>
@@ -39,35 +40,142 @@ export default class MyProduct {
   }
 }
 
-const button = document.querySelector("button");
-button.onclick = () => (window.location = "allProduct.html");
-const option = document.querySelector(".menuop");
-const menu = document.querySelector(".handburger");
-menu.addEventListener("click", function (e) {
-  option.classList.toggle("hidden");
-  menu.classList.toggle("hand");
-});
-const main = document.querySelector("main");
-main.addEventListener("click", function (e) {
-  const target = e.target.classList;
-  if (target.contains("home")) {
-    console.log(e.target);
-    window.location = "index.html";
-  }
-  if (target.contains("shop")) {
-    window.location = "allProduct.html";
-  }
-  if (target.contains("hot")) {
-    window.location = "popular.html";
-  }
-  if (target.contains("contact")) {
-    window.location = "https://wa.me/qr/OYZTSSFW7TV7E1";
-  }
-});
+//
+export function headearFunction() {
+  const html = `
+  <header class="bg-white lg:bg-gray">
+        <div
+          class="flex uppercase justify-between mx-auto pt-3 md:w-9/12 w-11/12 h-fit"
+        >
+          <div class="flex space-x-16 text-xl"
+            ><h1 class="text-seanText font-bold font"
+              >sean <span class="font-normal text-textBlack">store</span></h1
+            >
+            <div
+              class="hidden lg:flex capitalize text-sm space-x-5 text-dropBlack font-medium my-1"
+            >
+              <p class="text-blue cursor-pointer home w-fit">home</p>
+              <p class="hover:text-blue cursor-pointer shop w-fit">shop</p>
+              <p class="hover:text-blue cursor-pointer shop w-fit"
+                >features
+                <span
+                  class="rounded-2xl hot bg-lightRed text-white relative uppercase bottom-4 smallText px-1.5 right-2 py-0.5 tracking-widest cursor-default"
+                  >hot</span
+                >
+              </p>
+              <p class="hover:text-blue cursor-pointer w-fit">blog</p>
+              <p class="hover:text-blue cursor-pointer contact w-fit"
+                >contact</p
+              >
+            </div>
+          </div>
+          <div class="flex text-2xl sm:text-3xl sm:space-x-5 space-x-4">
+            <div class="cursor-pointer hover:text-blue"
+              ><i class="bx bxs-cart-alt"></i>
+              <p
+                class="bg-blue cart-number text-white relative text-sm px-1.5 hel bottom-10 sm:bottom-11 left-4 sm:left-5 w-fit text-center"
+                >0</p
+              >
+            </div>
+            <div class="cursor-pointer hover:text-blue"
+              ><i class="bx bx-heart"></i>
+              <p
+                class="bg-blue like-num text-white relative text-sm px-1.5 bottom-10 sm:bottom-11 left-4 sm:left-5 w-fit text-center"
+                >0</p
+              >
+            </div>
+            <div class="lg:hidden handburger my-1.5 sm:my-2.5 cursor-pointer">
+              <p class="hand1"></p>
+              <p class="hand2"></p>
+              <p class="hand3"></p>
+            </div>
+          </div>
+        </div>
+      </header>
 
+      <section class="bg-dropBlack text-sm hidden menuop lg:hidden">
+        <div class="">
+          <h3 class="bg-dropBlack text-white px-5 py-3"
+            >Free shipping for standard order over $100</h3
+          >
+          <hr class="text-gray h-0.5"
+        /></div>
+
+        <div class="bg-dropBlack flex px-3 justify-around py-1 w-80">
+          <div class="cross"></div>
+
+          <p class="text-white hover:text-blue cursor-pointer">Help & FAQs </p>
+          <div class="cross"></div>
+
+          <p class="text-white hover:text-blue capitalize cursor-pointer"
+            >my account</p
+          >
+          <div class="cross"></div>
+
+          <p class="text-white hover:text-blue uppercase cursor-pointer">en</p>
+
+          <div class="cross"></div>
+          <p class="text-white hover:text-blue uppercase cursor-pointer">usd</p>
+          <div class="cross"></div>
+        </div>
+
+        <div class="bg-blue space-y-4 font-bold text-white capitalize px-5">
+          <p class="cursor-pointer pt-2 home w-fit">home</p>
+          <p class="cursor-pointer shop w-fit">shop</p>
+          <p class="cursor-pointer shop w-fit"
+            >features
+            <span
+              class="rounded-2xl hot bg-lightRed text-white relative uppercase left-2 smallText px-1.5 py-0.5 tracking-widest cursor-default"
+              >hot</span
+            >
+          </p>
+          <p class="cursor-pointer w-fit">blog</p>
+          <p class="cursor-pointer pb-4 contact w-fit">contact</p>
+        </div>
+      </section>
+  `;
+  document.querySelector("main").innerHTML = html;
+
+  const button = document.querySelector("button");
+  button.onclick = () => (window.location = "allProduct.html");
+  const option = document.querySelector(".menuop");
+  const menu = document.querySelector(".handburger");
+  menu.addEventListener("click", function (e) {
+    option.classList.toggle("hidden");
+    menu.classList.toggle("hand");
+  });
+  const main = document.querySelector("main");
+  main.addEventListener("click", function (e) {
+    const target = e.target.classList;
+    if (target.contains("home")) {
+      console.log(e.target);
+      window.location = "index.html";
+    }
+    if (target.contains("shop")) {
+      window.location = "allProduct.html";
+    }
+    if (target.contains("hot")) {
+      window.location = "popular.html";
+    }
+    if (target.contains("contact")) {
+      window.location = "https://wa.me/qr/OYZTSSFW7TV7E1";
+    }
+  });
+
+  const getProductArray = JSON.parse(localStorage.getItem("productarray"));
+  if (!localStorage.productarray) {
+  } else {
+    document.querySelector(".cart-number").textContent = getProductArray.length;
+  }
+  document
+    .querySelector(".bxs-cart-alt")
+    .addEventListener("click", () => (window.location = "cart.html"));
+}
+
+//
 const cartoptionContainer = document.querySelector(".cartoption-container");
 
-const viewFunction = function (src, name, amount) {
+export function viewFunction(src, name, amount) {
   cartoptionContainer.innerHTML = "";
   const html = `
   <div
@@ -249,12 +357,13 @@ const viewFunction = function (src, name, amount) {
 
   `;
   cartoptionContainer.innerHTML = html;
-};
+}
 const body = document.querySelector("body");
 const cartDiv = document.querySelector(".cart-div");
 const overflow = document.querySelector(".overflow");
 const cartCancel = document.querySelector(".cart-cancelled");
-const cartFunction = function () {
+
+export function cartFunction() {
   body.addEventListener("click", function (e) {
     if (e.target.classList.contains("quickview")) {
       const parent = e.target.parentElement;
@@ -535,14 +644,4 @@ const cartFunction = function () {
       addToCart();
     }
   });
-};
-cartFunction();
-//
-const getProductArray = JSON.parse(localStorage.getItem("productarray"));
-if (!localStorage.productarray) {
-} else {
-  document.querySelector(".cart-number").textContent = getProductArray.length;
 }
-document
-  .querySelector(".bxs-cart-alt")
-  .addEventListener("click", () => (window.location = "cart.html"));

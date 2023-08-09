@@ -1,4 +1,4 @@
-// import MyProduct from "./general.js";
+import { cartFunction } from "./general.js";
 const swiper = new Swiper(".swiper", {
   // Optional parameters
   loop: true,
@@ -21,6 +21,9 @@ const swiper = new Swiper(".swiper", {
 const main = document.querySelector("main");
 main.addEventListener("click", function (e) {
   const target = e.target.classList;
+  if (target.contains("like-link")) {
+    window.location = "like.html";
+  }
   if (target.contains("home")) {
     console.log(e.target);
     window.location = "index.html";
@@ -261,6 +264,7 @@ const imageSummary = function (container, array) {
     <img
     src="${pro.imgsrc}"
     alt=""
+    data-id="${index}"
     />
     <button
     class="relative quickview opacity-0 bottom-24 transition-all duration-500 capitalize tracking-wide font-semibold px-3 py-2 bg-white text-dropBlack rounded-3xl hover:bg-black hover:text-white"
@@ -277,7 +281,10 @@ const imageSummary = function (container, array) {
     <div
     class="text-gray absolute right-1 hover:text-blue  w-fit text-2xl transition-all cursor-pointer duration-500"
     ><i class="bx bxs-heart like"></i
-    ></div>
+    >
+    <i class="bx bxs-heart hidden unlike text-blue"></i
+    >
+    </div>
     </div>
     </div>
     `;
@@ -493,7 +500,7 @@ const viewFunction = function (src, name, amount) {
   `;
   cartoptionContainer.innerHTML = html;
 };
-
+const body = document.querySelector("body");
 http.onload = function () {
   if (this.status == 200 && this.readyState == 4) {
     const responseText = JSON.parse(http.responseText);
@@ -584,302 +591,5 @@ http.onload = function () {
     });
   }
 
-  //
-  //
-  const cartCancel = document.querySelector(".cart-cancelled");
-  const overflow = document.querySelector(".overflow");
-  const quickview = document.querySelectorAll(".quickview");
-
-  const cartFunction = function () {
-    quickview.forEach((view) => {
-      view.addEventListener("click", function (e) {
-        const parent = e.target.parentElement;
-        const children = parent.children;
-        const src = [...children][0].src;
-        const next = parent.nextElementSibling.children;
-        const paragraph = [...next][0];
-        const name = paragraph.children[0].textContent;
-        const price = paragraph.children[1].textContent;
-        const amount = Number(price.slice(1));
-        viewFunction(src, name, amount);
-
-        swiperContainer.style.opacity = 0.5;
-        overflow.classList.remove("hidden");
-        cartDiv.classList.remove("hidden");
-        dense.style.opacity = 0;
-      });
-    });
-
-    let CartData = {
-      id: 0,
-      sizeM: 0,
-      sizeL: 0,
-      sizeXL: 0,
-      sizeXXL: 0,
-      Mprice: [],
-      Lprice: [],
-      XLprice: [],
-      XXLprice: [],
-      imageLink: "",
-      productGrade: "",
-    };
-
-    let ProductArray = [];
-
-    cartoptionContainer.addEventListener("click", function (e) {
-      const item1 = document.querySelector(".item1");
-      const item2 = document.querySelector(".item2");
-      const item3 = document.querySelector(".item3");
-      const item4 = document.querySelector(".item4");
-
-      const cartVariation = () => {
-        const parent = e.target.parentElement;
-        const parentPrev = parent.closest(".contol-box");
-        const children = parentPrev.children;
-        const src = [...children][0].children[0].src;
-        const constAside = [...children][1].children[0].children;
-        const nameAside = [...constAside][0].children[0].children;
-        const name = nameAside[0].textContent;
-        const price = nameAside[1].textContent;
-        const amount = Number(price.slice(1));
-
-        console.log(src, amount, name);
-        document.querySelector(".notempty-option").classList.remove("hidden");
-        document.querySelector(".empty-option").classList.add("hidden");
-
-        const getProductArray = JSON.parse(
-          localStorage.getItem("productarray")
-        );
-        if (!localStorage.productarray) {
-        } else {
-          ProductArray = getProductArray;
-        }
-        ProductArray.forEach((obj, index) => {
-          if (obj.imageLink === src) {
-            CartData = obj;
-            ProductArray.splice(index, 1);
-          } else {
-            CartData = CartData;
-          }
-        });
-
-        item1.textContent = CartData.sizeM;
-        item2.textContent = CartData.sizeL;
-        item3.textContent = CartData.sizeXL;
-        item4.textContent = CartData.sizeXXL;
-        console.log(getProductArray);
-      };
-
-      if (e.target.classList.contains("add")) {
-        cartVariation();
-      }
-      //
-      if (e.target.classList.contains("opt")) {
-        cartVariation();
-      }
-
-      //
-      if (e.target.classList.contains("plus1")) {
-        if (CartData.sizeM < 5) {
-          const parent = e.target.closest(".contol-box");
-          const link = parent.children[0].children[0].src;
-          const variety = e.target.closest(".variation").children[0].children;
-          const grade = variety[0].textContent.toUpperCase();
-          const priceText = variety[1].textContent;
-          const price = Number(priceText.slice(1));
-          CartData.Mprice.push(price);
-          CartData.imageLink = link;
-          CartData.productGrade = grade;
-          CartData.sizeM++;
-          item1.textContent = CartData.sizeM;
-          console.log(CartData);
-
-          const dataStorage = localStorage.setItem(
-            "cartdata",
-            JSON.stringify(CartData)
-          );
-        }
-      }
-
-      //
-      if (e.target.classList.contains("minus1")) {
-        if (CartData.sizeM > 0) {
-          const parent = e.target.closest(".contol-box");
-          const link = parent.children[0].children[0].src;
-          const variety = e.target.closest(".variation").children[0].children;
-          const grade = variety[0].textContent.toUpperCase();
-          const priceText = variety[1].textContent;
-          const price = Number(priceText.slice(1));
-
-          CartData.Mprice.pop(price);
-          CartData.sizeM--;
-          item1.textContent = CartData.sizeM;
-          console.log(CartData);
-
-          const dataStorage = localStorage.setItem(
-            "cartdata",
-            JSON.stringify(CartData)
-          );
-        }
-      }
-      //
-      if (e.target.classList.contains("plus2")) {
-        if (CartData.sizeL < 5) {
-          const variety = e.target.closest(".variation").children[0].children;
-          const grade = variety[0].textContent.toUpperCase();
-          const priceText = variety[1].textContent;
-          const price = Number(priceText.slice(1));
-
-          const parent = e.target.closest(".contol-box");
-          const img = parent.children[0].children[0].src;
-          CartData.sizeL++;
-          item2.textContent = CartData.sizeL;
-          CartData.imageLink = img;
-          CartData.productGrade = grade;
-          CartData.Lprice.push(price);
-
-          const dataStorage = localStorage.setItem(
-            "cartdata",
-            JSON.stringify(CartData)
-          );
-        }
-      }
-
-      if (e.target.classList.contains("minus2")) {
-        if (CartData.sizeL > 0) {
-          const variety = e.target.closest(".variation").children[0].children;
-          const priceText = variety[1].textContent;
-          const price = Number(priceText.slice(1));
-          CartData.sizeL--;
-          CartData.Lprice.pop(price);
-          item2.textContent = CartData.sizeL;
-
-          const dataStorage = localStorage.setItem(
-            "cartdata",
-            JSON.stringify(CartData)
-          );
-        }
-      }
-      //
-
-      if (e.target.classList.contains("plus3")) {
-        if (CartData.sizeXL < 5) {
-          const variety = e.target.closest(".variation").children[0].children;
-          const grade = variety[0].textContent.toUpperCase();
-          const priceText = variety[1].textContent;
-          const price = Number(priceText.slice(1));
-
-          CartData.sizeXL++;
-          item3.textContent = CartData.sizeXL;
-          const parent = e.target.closest(".contol-box");
-          const img = parent.children[0].children[0].src;
-          CartData.imageLink = img;
-          CartData.productGrade = grade;
-          CartData.XLprice.push(price);
-
-          const dataStorage = localStorage.setItem(
-            "cartdata",
-            JSON.stringify(CartData)
-          );
-        }
-      }
-
-      if (e.target.classList.contains("minus3")) {
-        if (CartData.sizeXL > 0) {
-          const variety = e.target.closest(".variation").children[0].children;
-          const priceText = variety[1].textContent;
-          const price = Number(priceText.slice(1));
-          CartData.sizeXL--;
-          CartData.XLprice.pop(price);
-          item3.textContent = CartData.sizeXL;
-
-          const dataStorage = localStorage.setItem(
-            "cartdata",
-            JSON.stringify(CartData)
-          );
-        }
-      }
-      //
-
-      if (e.target.classList.contains("plus4")) {
-        if (CartData.sizeXXL < 5) {
-          const variety = e.target.closest(".variation").children[0].children;
-          const grade = variety[0].textContent.toUpperCase();
-          const priceText = variety[1].textContent;
-          const price = Number(priceText.slice(1));
-
-          const parent = e.target.closest(".contol-box");
-          const img = parent.children[0].children[0].src;
-          CartData.sizeXXL++;
-          item4.textContent = CartData.sizeXXL;
-          CartData.imageLink = img;
-          CartData.productGrade = grade;
-          CartData.XXLprice.push(price);
-
-          const dataStorage = localStorage.setItem(
-            "cartdata",
-            JSON.stringify(CartData)
-          );
-        }
-      }
-
-      if (e.target.classList.contains("minus4")) {
-        if (CartData.sizeXXL > 0) {
-          const variety = e.target.closest(".variation").children[0].children;
-          const priceText = variety[1].textContent;
-          const price = Number(priceText.slice(1));
-          CartData.sizeXXL--;
-          CartData.XXLprice.pop(price);
-          item4.textContent = CartData.sizeXXL;
-
-          const dataStorage = localStorage.setItem(
-            "cartdata",
-            JSON.stringify(CartData)
-          );
-        }
-      }
-    });
-
-    const addToCart = () => {
-      overflow.classList.add("hidden");
-      cartDiv.classList.add("hidden");
-      swiperContainer.style.opacity = 1;
-      dense.style.opacity = 1;
-      const getCartData = JSON.parse(localStorage.getItem("cartdata"));
-      console.log(getCartData);
-      if (CartData.imageLink === "") {
-        return;
-        console.log("empty");
-      } else {
-        ProductArray.push(getCartData);
-        console.log(ProductArray);
-        document.querySelector(".cart-number").textContent =
-          ProductArray.length;
-      }
-      const productStorage = localStorage.setItem(
-        "productarray",
-        JSON.stringify(ProductArray)
-      );
-      // CLEARING OF CART
-      CartData.sizeM = CartData.sizeL = CartData.sizeXL = CartData.sizeXXL = 0;
-      CartData.Mprice = [];
-      CartData.Lprice = [];
-      CartData.XLprice = [];
-      CartData.XXLprice = [];
-
-      CartData.imageLink = CartData.productGrade = "";
-    };
-
-    cartCancel.addEventListener("click", () => addToCart());
-    cartDiv.addEventListener("click", function (e) {
-      if (e.target.classList.contains("cart-view")) {
-        addToCart();
-        window.location = "cart.html";
-      }
-      if (e.target.classList.contains("continue-shop")) {
-        addToCart();
-      }
-    });
-  };
   cartFunction();
 };

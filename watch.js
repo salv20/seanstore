@@ -1,4 +1,8 @@
-import MyProduct from "./general.js";
+import MyProduct, {
+  cartFunction,
+  headearFunction,
+  likeFunction,
+} from "./general.js";
 
 const http = new XMLHttpRequest();
 http.open("get", "asset.json", true);
@@ -12,3 +16,6 @@ http.onload = function () {
     new MyProduct(result.Watches);
   }
 };
+headearFunction();
+cartFunction();
+likeFunction();
