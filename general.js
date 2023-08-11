@@ -69,18 +69,11 @@ export function headearFunction() {
               >
             </div>
           </div>
-          <div class="flex text-2xl sm:text-3xl sm:space-x-5 space-x-4">
+          <div class="flex text-2xl sm:text-3xl sm:space-x-5 space-x-4 pr-5">
             <div class="cursor-pointer hover:text-blue"
               ><i class="bx bxs-cart-alt"></i>
               <p
                 class="bg-blue cart-number text-white relative text-sm px-1.5 hel bottom-10 sm:bottom-11 left-4 sm:left-5 w-fit text-center"
-                >0</p
-              >
-            </div>
-            <div class="cursor-pointer hover:text-blue"
-              ><i class="bx bx-heart"></i>
-              <p
-                class="bg-blue like-num text-white relative text-sm px-1.5 bottom-10 sm:bottom-11 left-4 sm:left-5 w-fit text-center"
                 >0</p
               >
             </div>
@@ -375,7 +368,6 @@ export function cartFunction() {
       const price = paragraph.children[1].textContent;
       const amount = Number(price.slice(1));
       viewFunction(src, name, amount);
-      console.log(src, name, amount);
       overflow.classList.remove("hidden");
       cartDiv.classList.remove("hidden");
     }
@@ -412,7 +404,6 @@ export function cartFunction() {
       const price = nameAside[1].textContent;
       const amount = Number(price.slice(1));
 
-      console.log(src, amount, name);
       document.querySelector(".notempty-option").classList.remove("hidden");
       document.querySelector(".empty-option").classList.add("hidden");
 
@@ -434,7 +425,6 @@ export function cartFunction() {
       item2.textContent = CartData.sizeL;
       item3.textContent = CartData.sizeXL;
       item4.textContent = CartData.sizeXXL;
-      console.log(getProductArray);
     };
 
     if (e.target.classList.contains("add")) {
@@ -459,7 +449,6 @@ export function cartFunction() {
         CartData.productGrade = grade;
         CartData.sizeM++;
         item1.textContent = CartData.sizeM;
-        console.log(CartData);
 
         const dataStorage = localStorage.setItem(
           "cartdata",
@@ -481,7 +470,6 @@ export function cartFunction() {
         CartData.Mprice.pop(price);
         CartData.sizeM--;
         item1.textContent = CartData.sizeM;
-        console.log(CartData);
 
         const dataStorage = localStorage.setItem(
           "cartdata",
@@ -611,13 +599,10 @@ export function cartFunction() {
     overflow.classList.add("hidden");
     cartDiv.classList.add("hidden");
     const getCartData = JSON.parse(localStorage.getItem("cartdata"));
-    console.log(getCartData);
     if (CartData.imageLink === "") {
       return;
-      console.log("empty");
     } else {
       ProductArray.push(getCartData);
-      console.log(ProductArray);
       document.querySelector(".cart-number").textContent = ProductArray.length;
     }
     const productStorage = localStorage.setItem(
@@ -645,3 +630,11 @@ export function cartFunction() {
     }
   });
 }
+export function likeFunction() {
+  body.addEventListener("click", (e) => {
+    if (e.target.classList.contains("like")) {
+      e.target.classList.toggle("activelike");
+    }
+  });
+}
+likeFunction();

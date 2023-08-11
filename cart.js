@@ -1,5 +1,5 @@
 const imageContainer = document.querySelector(".allProduct-container");
-const getProductArray = JSON.parse(localStorage.getItem("productarray"));
+let getProductArray = JSON.parse(localStorage.getItem("productarray"));
 const loadoption = document.querySelector(".loadoption");
 const emptyCart = document.querySelector(".emptycart");
 const total = document.querySelector(".totalamount");
@@ -53,14 +53,14 @@ const cartFunction = function () {
     <aside class="flex gap-3">
     <p class=""
     ><i
-    class="fa fa-minus minus4 num p-2 bg-gray"
+    class="fa fa-minus minus1 num p-2 bg-gray"
     aria-hidden="true"
     ></i
     ></p>
     <p class="item-num item4">${product.Mprice.length}</p>
     <p class=""
     ><i
-    class="fa fa-plus num plus4 p-2 bg-gray"
+    class="fa fa-plus num plus1 p-2 bg-gray"
     aria-hidden="true"
     ></i
     ></p>
@@ -72,14 +72,14 @@ const cartFunction = function () {
     <aside class="flex gap-3">
     <p class=""
     ><i
-    class="fa fa-minus minus4 num p-2 bg-gray"
+    class="fa fa-minus minus2 num p-2 bg-gray"
     aria-hidden="true"
     ></i
     ></p>
     <p class="item-num item4">${product.Lprice.length}</p>
     <p class=""
     ><i
-    class="fa fa-plus num plus4 p-2 bg-gray"
+    class="fa fa-plus num plus2 p-2 bg-gray"
     aria-hidden="true"
     ></i
     ></p>
@@ -90,14 +90,14 @@ const cartFunction = function () {
     <aside class="flex gap-3">
     <p class=""
     ><i
-    class="fa fa-minus minus4 num p-2 bg-gray"
+    class="fa fa-minus minus3 num p-2 bg-gray"
     aria-hidden="true"
     ></i
     ></p>
     <p class="item-num item4">${product.XLprice.length}</p>
     <p class=""
     ><i
-    class="fa fa-plus num plus4 p-2 bg-gray"
+    class="fa fa-plus num plus3 p-2 bg-gray"
     aria-hidden="true"
     ></i
     ></p>
@@ -184,6 +184,428 @@ const cartFunction = function () {
         console.log(getProductArray);
         window.location.reload();
       }
+    }
+
+    // cart addition
+    const addRemove = () => {
+      const product = getProductArray.map((product, index) => product);
+
+      if (e.target.classList.contains("plus1")) {
+        const closestDiv = e.target.closest(".image-final");
+        const closestAside = e.target.closest("aside");
+        const asideChild = closestAside.children;
+        const dataId =
+          closestDiv.children[0].children[0].getAttribute("data-id");
+        let amount = Number(asideChild[1].textContent);
+
+        if (amount < 5) {
+          const proArray = product[dataId];
+          proArray.sizeM++;
+          // Array
+          const proMprice = proArray.Mprice;
+          const proLprice = proArray.Lprice;
+          const proXLprice = proArray.XLprice;
+          const proXXLprice = proArray.XXLprice;
+          // PRICE
+          const Mprice = proMprice[0];
+          const Lprice = proLprice[0];
+          const XLprice = proXLprice[0];
+          const XXLprice = proXXLprice[0];
+
+          if (isFinite(Mprice)) {
+            proMprice.push(Mprice);
+          }
+          if (!isFinite(Mprice) && isFinite(Lprice)) {
+            proMprice.push(Lprice - 5);
+          }
+          if (!isFinite(Mprice) && !isFinite(Lprice) && isFinite(XLprice)) {
+            proMprice.push(XLprice - 10);
+          }
+
+          if (
+            !isFinite(Mprice) &&
+            !isFinite(Lprice) &&
+            !isFinite(XLprice) &&
+            isFinite(XXLprice)
+          ) {
+            proMprice.push(XXLprice - 15);
+          }
+          if (proArray.imageLink === getProductArray.imageLink) {
+            getProductArray.splice(dataId, 1);
+            getProductArray.push(proArray);
+          } else {
+            getProductArray = getProductArray;
+          }
+          localStorage.setItem("productarray", JSON.stringify(getProductArray));
+          location.reload();
+        }
+      }
+
+      //
+      if (e.target.classList.contains("minus1")) {
+        const closestDiv = e.target.closest(".image-final");
+        const closestAside = e.target.closest("aside");
+        const asideChild = closestAside.children;
+        const dataId =
+          closestDiv.children[0].children[0].getAttribute("data-id");
+        let amount = Number(asideChild[1].textContent);
+
+        if (amount > 1) {
+          const proArray = product[dataId];
+          proArray.sizeM--;
+          // Array
+          const proMprice = proArray.Mprice;
+          const proLprice = proArray.Lprice;
+          const proXLprice = proArray.XLprice;
+          const proXXLprice = proArray.XXLprice;
+          // PRICE
+          const Mprice = proMprice[0];
+          const Lprice = proLprice[0];
+          const XLprice = proXLprice[0];
+          const XXLprice = proXXLprice[0];
+
+          if (isFinite(Mprice)) {
+            proMprice.pop(Mprice);
+          }
+          if (!isFinite(Mprice) && isFinite(Lprice)) {
+            proMprice.pop(Lprice - 5);
+          }
+          if (!isFinite(Mprice) && !isFinite(Lprice) && isFinite(XLprice)) {
+            proMprice.pop(XLprice - 10);
+          }
+
+          if (
+            !isFinite(Mprice) &&
+            !isFinite(Lprice) &&
+            !isFinite(XLprice) &&
+            isFinite(XXLprice)
+          ) {
+            proMprice.pop(XXLprice - 15);
+          }
+          if (proArray.imageLink === getProductArray.imageLink) {
+            getProductArray.splice(dataId, 1);
+            getProductArray.push(proArray);
+          } else {
+            getProductArray = getProductArray;
+          }
+          localStorage.setItem("productarray", JSON.stringify(getProductArray));
+          location.reload();
+        }
+      }
+      //
+      if (e.target.classList.contains("plus2")) {
+        const closestDiv = e.target.closest(".image-final");
+        const closestAside = e.target.closest("aside");
+        const asideChild = closestAside.children;
+        const dataId =
+          closestDiv.children[0].children[0].getAttribute("data-id");
+        let amount = Number(asideChild[1].textContent);
+        if (amount < 5) {
+          const proArray = product[dataId];
+          proArray.sizeL++;
+          // Array
+          const proMprice = proArray.Mprice;
+          const proLprice = proArray.Lprice;
+          const proXLprice = proArray.XLprice;
+          const proXXLprice = proArray.XXLprice;
+          // PRICE
+          const Mprice = proMprice[0];
+          const Lprice = proLprice[0];
+          const XLprice = proXLprice[0];
+          const XXLprice = proXXLprice[0];
+
+          if (isFinite(Lprice)) {
+            proLprice.push(Lprice);
+          }
+          if (!isFinite(Lprice) && isFinite(Mprice)) {
+            proLprice.push(Mprice + 5);
+          }
+          if (!isFinite(Mprice) && !isFinite(Lprice) && isFinite(XLprice)) {
+            proLprice.push(XLprice - 5);
+          }
+
+          if (
+            !isFinite(Mprice) &&
+            !isFinite(Lprice) &&
+            !isFinite(XLprice) &&
+            isFinite(XXLprice)
+          ) {
+            proLprice.push(XXLprice - 10);
+          }
+          if (proArray.imageLink === getProductArray.imageLink) {
+            getProductArray.splice(dataId, 1);
+            getProductArray.push(proArray);
+          } else {
+            getProductArray = getProductArray;
+          }
+          localStorage.setItem("productarray", JSON.stringify(getProductArray));
+          location.reload();
+        }
+      }
+
+      if (e.target.classList.contains("minus2")) {
+        const closestDiv = e.target.closest(".image-final");
+        const closestAside = e.target.closest("aside");
+        const asideChild = closestAside.children;
+        const dataId =
+          closestDiv.children[0].children[0].getAttribute("data-id");
+        let amount = Number(asideChild[1].textContent);
+
+        if (amount > 1) {
+          const proArray = product[dataId];
+          proArray.sizeL--;
+          // Array
+          const proMprice = proArray.Mprice;
+          const proLprice = proArray.Lprice;
+          const proXLprice = proArray.XLprice;
+          const proXXLprice = proArray.XXLprice;
+          // PRICE
+          const Mprice = proMprice[0];
+          const Lprice = proLprice[0];
+          const XLprice = proXLprice[0];
+          const XXLprice = proXXLprice[0];
+
+          if (isFinite(Lprice)) {
+            proLprice.pop(Lprice);
+          }
+          if (!isFinite(Lprice) && isFinite(Mprice)) {
+            proLprice.pop(Mprice + 5);
+          }
+          if (!isFinite(Mprice) && !isFinite(Lprice) && isFinite(XLprice)) {
+            proLprice.pop(XLprice - 5);
+          }
+
+          if (
+            !isFinite(Mprice) &&
+            !isFinite(Lprice) &&
+            !isFinite(XLprice) &&
+            isFinite(XXLprice)
+          ) {
+            proLprice.pop(XXLprice - 10);
+          }
+          if (proArray.imageLink === getProductArray.imageLink) {
+            getProductArray.splice(dataId, 1);
+            getProductArray.push(proArray);
+          } else {
+            getProductArray = getProductArray;
+          }
+          localStorage.setItem("productarray", JSON.stringify(getProductArray));
+          location.reload();
+        }
+      }
+
+      if (e.target.classList.contains("plus3")) {
+        const closestDiv = e.target.closest(".image-final");
+        const closestAside = e.target.closest("aside");
+        const asideChild = closestAside.children;
+        const dataId =
+          closestDiv.children[0].children[0].getAttribute("data-id");
+        let amount = Number(asideChild[1].textContent);
+
+        if (amount < 5) {
+          const proArray = product[dataId];
+          proArray.sizeXL++;
+          // Array
+          const proMprice = proArray.Mprice;
+          const proLprice = proArray.Lprice;
+          const proXLprice = proArray.XLprice;
+          const proXXLprice = proArray.XXLprice;
+          // PRICE
+          const Mprice = proMprice[0];
+          const Lprice = proLprice[0];
+          const XLprice = proXLprice[0];
+          const XXLprice = proXXLprice[0];
+
+          if (isFinite(XLprice)) {
+            proXLprice.push(XLprice);
+          }
+          if (!isFinite(XLprice) && isFinite(Lprice)) {
+            proXLprice.push(Lprice + 5);
+          }
+          if (!isFinite(XLprice) && !isFinite(Lprice) && isFinite(Mprice)) {
+            proXLprice.push(Mprice + 10);
+          }
+
+          if (
+            !isFinite(Mprice) &&
+            !isFinite(Lprice) &&
+            !isFinite(XLprice) &&
+            isFinite(XXLprice)
+          ) {
+            proXLprice.push(XXLprice - 5);
+          }
+          if (proArray.imageLink === getProductArray.imageLink) {
+            getProductArray.splice(dataId, 1);
+            getProductArray.push(proArray);
+          } else {
+            getProductArray = getProductArray;
+          }
+          localStorage.setItem("productarray", JSON.stringify(getProductArray));
+          location.reload();
+        }
+      }
+
+      if (e.target.classList.contains("minus3")) {
+        const closestDiv = e.target.closest(".image-final");
+        const closestAside = e.target.closest("aside");
+        const asideChild = closestAside.children;
+        const dataId =
+          closestDiv.children[0].children[0].getAttribute("data-id");
+        let amount = Number(asideChild[1].textContent);
+
+        if (amount > 1) {
+          const proArray = product[dataId];
+          proArray.sizeM--;
+          // Array
+          const proMprice = proArray.Mprice;
+          const proLprice = proArray.Lprice;
+          const proXLprice = proArray.XLprice;
+          const proXXLprice = proArray.XXLprice;
+          // PRICE
+          const Mprice = proMprice[0];
+          const Lprice = proLprice[0];
+          const XLprice = proXLprice[0];
+          const XXLprice = proXXLprice[0];
+
+          if (isFinite(XLprice)) {
+            proXLprice.pop(XLprice);
+          }
+          if (!isFinite(XLprice) && isFinite(Lprice)) {
+            proXLprice.pop(Lprice + 5);
+          }
+          if (!isFinite(XLprice) && !isFinite(Lprice) && isFinite(Mprice)) {
+            proXLprice.pop(XLprice + 10);
+          }
+
+          if (
+            !isFinite(Mprice) &&
+            !isFinite(Lprice) &&
+            !isFinite(XLprice) &&
+            isFinite(XXLprice)
+          ) {
+            proXLprice.pop(XXLprice - 5);
+          }
+          if (proArray.imageLink === getProductArray.imageLink) {
+            getProductArray.splice(dataId, 1);
+            getProductArray.push(proArray);
+          } else {
+            getProductArray = getProductArray;
+          }
+          localStorage.setItem("productarray", JSON.stringify(getProductArray));
+          location.reload();
+        }
+      }
+
+      if (e.target.classList.contains("plus4")) {
+        const closestDiv = e.target.closest(".image-final");
+        const closestAside = e.target.closest("aside");
+        const asideChild = closestAside.children;
+        const dataId =
+          closestDiv.children[0].children[0].getAttribute("data-id");
+        let amount = Number(asideChild[1].textContent);
+
+        if (amount < 5) {
+          const proArray = product[dataId];
+          proArray.sizeXXL++;
+          // Array
+          const proMprice = proArray.Mprice;
+          const proLprice = proArray.Lprice;
+          const proXLprice = proArray.XLprice;
+          const proXXLprice = proArray.XXLprice;
+          // PRICE
+          const Mprice = proMprice[0];
+          const Lprice = proLprice[0];
+          const XLprice = proXLprice[0];
+          const XXLprice = proXXLprice[0];
+
+          if (isFinite(XXLprice)) {
+            proXXLprice.push(XXLprice);
+          }
+          if (!isFinite(XXLprice) && isFinite(Lprice)) {
+            proXXLprice.push(Lprice + 10);
+          }
+          if (!isFinite(XXLprice) && !isFinite(Lprice) && isFinite(XLprice)) {
+            proXXLprice.push(XLprice + 5);
+          }
+
+          if (
+            isFinite(Mprice) &&
+            !isFinite(Lprice) &&
+            !isFinite(XLprice) &&
+            !isFinite(XXLprice)
+          ) {
+            proXXLprice.push(Mprice + 15);
+          }
+          if (proArray.imageLink === getProductArray.imageLink) {
+            getProductArray.splice(dataId, 1);
+            getProductArray.push(proArray);
+          } else {
+            getProductArray = getProductArray;
+          }
+          localStorage.setItem("productarray", JSON.stringify(getProductArray));
+          location.reload();
+        }
+      }
+
+      if (e.target.classList.contains("minus4")) {
+        const closestDiv = e.target.closest(".image-final");
+        const closestAside = e.target.closest("aside");
+        const asideChild = closestAside.children;
+        const dataId =
+          closestDiv.children[0].children[0].getAttribute("data-id");
+        let amount = Number(asideChild[1].textContent);
+
+        if (amount > 1) {
+          const proArray = product[dataId];
+          proArray.sizeXXL--;
+          // Array
+          const proMprice = proArray.Mprice;
+          const proLprice = proArray.Lprice;
+          const proXLprice = proArray.XLprice;
+          const proXXLprice = proArray.XXLprice;
+          // PRICE
+          const Mprice = proMprice[0];
+          const Lprice = proLprice[0];
+          const XLprice = proXLprice[0];
+          const XXLprice = proXXLprice[0];
+
+          if (isFinite(XXLprice)) {
+            proXXLprice.pop(XXLprice);
+          }
+          if (!isFinite(XXLprice) && isFinite(Lprice)) {
+            proXXLprice.pop(Lprice + 10);
+          }
+          if (!isFinite(Mprice) && !isFinite(Lprice) && isFinite(XLprice)) {
+            proXXLprice.pop(XLprice + 5);
+          }
+
+          if (
+            isFinite(Mprice) &&
+            !isFinite(Lprice) &&
+            !isFinite(XLprice) &&
+            !isFinite(XXLprice)
+          ) {
+            proXXLprice.pop(Mprice + 15);
+          }
+          if (proArray.imageLink === getProductArray.imageLink) {
+            getProductArray.splice(dataId, 1);
+            getProductArray.push(proArray);
+          } else {
+            getProductArray = getProductArray;
+          }
+          localStorage.setItem("productarray", JSON.stringify(getProductArray));
+          location.reload();
+        }
+      }
+    };
+    addRemove();
+
+    const checkoutClo = e.target.closest(".checkout");
+    if (!checkoutClo) {
+    } else {
+      localStorage.removeItem("productarray");
+      cartContainer.classList.add("hidden");
+      document.querySelector(".checkout-container").classList.remove("hidden");
     }
   });
 };

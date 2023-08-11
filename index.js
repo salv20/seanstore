@@ -1,4 +1,4 @@
-import { cartFunction } from "./general.js";
+import { cartFunction, likeFunction } from "./general.js";
 const swiper = new Swiper(".swiper", {
   // Optional parameters
   loop: true,
@@ -21,9 +21,6 @@ const swiper = new Swiper(".swiper", {
 const main = document.querySelector("main");
 main.addEventListener("click", function (e) {
   const target = e.target.classList;
-  if (target.contains("like-link")) {
-    window.location = "like.html";
-  }
   if (target.contains("home")) {
     console.log(e.target);
     window.location = "index.html";
@@ -280,10 +277,7 @@ const imageSummary = function (container, array) {
     </div>
     <div
     class="text-gray absolute right-1 hover:text-blue  w-fit text-2xl transition-all cursor-pointer duration-500"
-    ><i class="bx bxs-heart like"></i
-    >
-    <i class="bx bxs-heart hidden unlike text-blue"></i
-    >
+    ><i class="bx bxs-heart like"></i>
     </div>
     </div>
     </div>

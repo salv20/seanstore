@@ -12,4 +12,3 @@ htttp.onload = function () {
 };
 headearFunction();
 cartFunction();
-likeFunction();
