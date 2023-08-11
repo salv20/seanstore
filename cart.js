@@ -603,6 +603,7 @@ const cartFunction = function () {
     const checkoutClo = e.target.closest(".checkout");
     if (!checkoutClo) {
     } else {
+      localStorage.removeItem("cartdata");
       localStorage.removeItem("productarray");
       cartContainer.classList.add("hidden");
       document.querySelector(".checkout-container").classList.remove("hidden");

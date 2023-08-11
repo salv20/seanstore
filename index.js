@@ -586,4 +586,10 @@ http.onload = function () {
   }
 
   cartFunction();
+
+  body.addEventListener("click", (e) => {
+    if (e.target.classList.contains("quickview")) {
+      swiperContainer.style.opacity = 0.5;
+    }
+  });
 };
