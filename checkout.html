@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>checkout</title>
+    <link rel="stylesheet" href="index.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              gray: "#e9eae3",
+              textBlack: "#333333",
+              lightBlue: "#717fe0",
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body>
+    <div
+      class="checkout-container mt-24 text-gray bg-lightBlue py-5 text-center space-y-2 w-3/4 md:w-1/2 mx-auto"
+    >
+      <p class="capitalize text-2xl font-bold tracking-widest">thank you</p>
+      <p class="capitalize text-1xl font-semibold">for shopping with us</p>
+      <p class="text-sm text-textBlack">Hoping to see you soon.</p>
+    </div>
+  </body>
+</html>
