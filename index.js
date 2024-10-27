@@ -36,11 +36,15 @@ main.addEventListener("click", function (e) {
   }
 });
 
-document
-  .querySelector(".bx-chevron-up")
-  .addEventListener("click", function (e) {
-    main.scrollIntoView({ behavior: "smooth" });
-  });
+document.querySelector(".bx-chevron-up").addEventListener("click", function () {
+  main.scrollIntoView({ behavior: "smooth" });
+});
+
+document.querySelector(".swiper-container").addEventListener("click", (e) => {
+  if (e.target.classList.contains("shop-now")) {
+    window.location = "allProduct.html";
+  }
+});
 
 // SEARCH
 const optionSearch1 = document.querySelector(".product-search1");
