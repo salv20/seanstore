@@ -593,3 +593,28 @@ http.onload = function () {
     }
   });
 };
+
+document.querySelector(".main_footer").addEventListener("click", (e) => {
+  console.log(e.target);
+
+  if (e.target.classList.contains("men")) {
+    window.location = "men.html";
+  }
+
+  if (e.target.classList.contains("women")) {
+    window.location = "women.html";
+  }
+  if (e.target.classList.contains("shoe")) {
+    window.location = "shoe.html";
+  }
+  if (e.target.classList.contains("watches")) {
+    window.location = "watch.html";
+  }
+
+  if (e.target.classList.contains("accesory")) {
+    window.location = "accesory.html";
+  }
+  if (e.target.classList.contains("home")) {
+    window.location = "index.html";
+  }
+});

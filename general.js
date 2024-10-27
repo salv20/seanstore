@@ -151,7 +151,7 @@ export function headearFunction() {
       window.location = "popular.html";
     }
     if (target.contains("contact")) {
-      window.location = "https://wa.me/qr/OYZTSSFW7TV7E1";
+      window.location = "https://x.com/Salv_hub";
     }
   });
 
